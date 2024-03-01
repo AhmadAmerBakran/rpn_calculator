@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'CalculatorLogic.dart';
+import 'Commands.dart';
 
 void main() => runApp(MyApp());
 
@@ -34,27 +36,41 @@ class _RPNCalculatorUIState extends State<RPNCalculatorUI> {
     setState(() {
       if ('0123456789.'.contains(value)) {
         currentInput += value;
-        _updateDisplay();
       } else if (value == "Enter" && currentInput.isNotEmpty) {
-        calculator.push(double.parse(currentInput));
+        calculator.executeCommand(PushCommand(double.parse(currentInput)));
         currentInput = "";
       } else if (value == "C") {
         calculator = RPNCalculator();
         currentInput = "";
+      } else if (value == "←") {
+        if (currentInput.isNotEmpty) {
+          currentInput = currentInput.substring(0, currentInput.length - 1);
+        }
       } else {
         if (currentInput.isNotEmpty) {
-          calculator.push(double.parse(currentInput));
+          calculator.executeCommand(PushCommand(double.parse(currentInput)));
           currentInput = "";
         }
 
-        if (value == "+") calculator.add();
-        else if (value == "-") calculator.subtract();
-        else if (value == "*") calculator.multiply();
-        else if (value == "/") calculator.divide();
+        switch (value) {
+          case "+":
+            calculator.executeCommand(AddCommand());
+            break;
+          case "-":
+            calculator.executeCommand(SubtractCommand());
+            break;
+          case "*":
+            calculator.executeCommand(MultiplyCommand());
+            break;
+          case "/":
+            calculator.executeCommand(DivideCommand());
+            break;
+        }
       }
       _updateDisplay();
     });
   }
+
 
   Widget _button(String label, {bool isOperation = false}) {
     return ElevatedButton(
@@ -97,10 +113,14 @@ class _RPNCalculatorUIState extends State<RPNCalculatorUI> {
             crossAxisSpacing: 10,
             shrinkWrap: true,
             children: <String>[
-              '7', '8', '9', '/', '4', '5', '6', '*', '1', '2', '3', '-', '0', '.', 'C', '+', 'Enter'
+              '7', '8', '9', '/',
+              '4', '5', '6', '*',
+              '1', '2', '3', '-',
+              '0', '.', 'C', '+',
+              'Enter', "←"
             ].map((label) {
               return GridTile(
-                child: _button(label, isOperation: '+-*/EnterC'.contains(label)),
+                child: _button(label, isOperation: '+-*/EnterC←'.contains(label)),
               );
             }).toList(),
           ),
