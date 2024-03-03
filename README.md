@@ -1,11 +1,3 @@
-RPN Calculator
-This RPN (Reverse Polish Notation) Calculator app is developed as a mobile application assignment for the course at Business Academy Southwest, Denmark. It's designed to offer a straightforward method for performing calculations using the reverse Polish notation, where operators follow their operands. This method allows for the elimination of parentheses as long as each operator has a fixed number of operands.
-
-Getting Started
-
-The RPN Calculator is built with Flutter, making it cross-platform and capable of running on both Android and iOS devices. To get started with this project, ensure you have Flutter installed on your machine. For detailed instructions on setting up Flutter, refer to the Flutter documentation.
-
-
 # RPN Calculator
 
 This RPN (Reverse Polish Notation) Calculator app is developed as a mobile application assignment for the course at Business Academy Southwest, Denmark. It's designed to offer a straightforward method for performing calculations using the reverse Polish notation, where operators follow their operands. This method allows for the elimination of parentheses as long as each operator has a fixed number of operands.
