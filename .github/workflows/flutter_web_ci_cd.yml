@@ -17,6 +17,13 @@ jobs:
         with:
           flutter-version: '3.x'
 
+      - name: Setup Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
+          sudo chmod -R 777 /opt/google/chrome
+          google-chrome-stable --version
+
       # Install dependencies
       - run: flutter pub get
 
