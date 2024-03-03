@@ -36,7 +36,7 @@ class _RPNCalculatorUIState extends State<RPNCalculatorUI> {
     setState(() {
       if ('0123456789.'.contains(value)) {
         currentInput += value;
-      } else if (value == "Enter" && currentInput.isNotEmpty) {
+      } else if (value == "En" && currentInput.isNotEmpty) {
         calculator.executeCommand(PushCommand(double.parse(currentInput)));
         currentInput = "";
       } else if (value == "C") {
@@ -73,18 +73,27 @@ class _RPNCalculatorUIState extends State<RPNCalculatorUI> {
 
 
   Widget _button(String label, {bool isOperation = false}) {
-    return ElevatedButton(
-      onPressed: () => _onPressed(label),
-      child: Text(label),
-      style: ElevatedButton.styleFrom(
-        backgroundColor: isOperation ? Colors.orange : Colors.grey[850],
-        foregroundColor: Colors.white,
-        textStyle: TextStyle(
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
+    double buttonWidth = MediaQuery.of(context).size.width / 5 - 10;
+    double buttonHeight = MediaQuery.of(context).size.height / 10 - 10;
+
+    return Container(
+      width: buttonWidth,
+      height: buttonHeight,
+      padding: EdgeInsets.all(4),
+      child: ElevatedButton(
+        onPressed: () => _onPressed(label),
+        child: Text(
+          label,
+          style: TextStyle(
+            fontSize: buttonWidth * 0.18,
+          ),
         ),
-        shape: CircleBorder(), // Circular buttons
-        padding: EdgeInsets.all(20),
+        style: ElevatedButton.styleFrom(
+          foregroundColor: Colors.white, backgroundColor: isOperation ? Colors.orange : Colors.grey[850],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
       ),
     );
   }
@@ -102,27 +111,26 @@ class _RPNCalculatorUIState extends State<RPNCalculatorUI> {
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               alignment: Alignment.centerRight,
-              child: Text(display, style: TextStyle(fontSize: 30, color: Colors.white)),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Text(
+                  display,
+                  style: TextStyle(fontSize: 24, color: Colors.white),
+                ),
+              ),
             ),
           ),
-          GridView.count(
-            crossAxisCount: 4,
-            childAspectRatio: 1.0,
-            padding: EdgeInsets.all(20),
-            mainAxisSpacing: 10,
-            crossAxisSpacing: 10,
-            shrinkWrap: true,
+          Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 14, // Horizontal spacing between buttons
+            runSpacing: 8, // Vertical spacing between buttons
             children: <String>[
               '7', '8', '9', '/',
               '4', '5', '6', '*',
               '1', '2', '3', '-',
               '0', '.', 'C', '+',
-              'Enter', "←"
-            ].map((label) {
-              return GridTile(
-                child: _button(label, isOperation: '+-*/EnterC←'.contains(label)),
-              );
-            }).toList(),
+              'En', "←"
+            ].map((label) => _button(label, isOperation: '+-*/EnC←'.contains(label))).toList(),
           ),
         ],
       ),

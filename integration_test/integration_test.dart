@@ -13,11 +13,11 @@ void main() {
       // Simulate button taps for numbers and operations.
       await tester.tap(find.text('3'));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Enter'));
+      await tester.tap(find.text('En'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('4'));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Enter'));
+      await tester.tap(find.text('En'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('*'));
       await tester.pumpAndSettle();
