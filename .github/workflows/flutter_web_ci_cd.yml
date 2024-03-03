@@ -11,12 +11,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.x'
+
       - run: flutter pub get
+
+      # Run unit and widget tests
       - run: flutter test
+
+      # Install Chrome and ChromeDriver for integration tests
+      - name: Setup Chrome and ChromeDriver
+        uses: browser-actions/setup-chromedriver@v1
+
+      # Setup environment variables required by ChromeDriver
+      - name: Setup Environment Variables
+        run: |
+          echo "CHROME_DRIVER_PATH=$(which chromedriver)" >> $GITHUB_ENV
+          echo "CHROME_EXECUTABLE=$(which google-chrome-stable)" >> $GITHUB_ENV
+
+      # Run integration tests
+      - name: Run Integration Tests
+        run: flutter test integration_test
+
       - run: flutter build web --base-href /${{ github.event.repository.name }}/
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
