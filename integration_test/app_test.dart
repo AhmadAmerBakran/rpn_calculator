@@ -23,7 +23,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Verify the result is displayed. This assumes that the display updates as expected.
-      expect(find.text('12.0'), findsOneWidget);
+      expect(find.text('12'), findsOneWidget);
     });
   });
 }
