@@ -19,11 +19,11 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.text('Enter'));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('+'));
+      await tester.tap(find.text('*'));
       await tester.pumpAndSettle();
 
       // Verify the result is displayed. This assumes that the display updates as expected.
-      expect(find.text('7'), findsOneWidget);
+      expect(find.text('12.0'), findsOneWidget);
     });
   });
 }
